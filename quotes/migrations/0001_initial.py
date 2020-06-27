@@ -68,7 +68,7 @@ class Migration(migrations.Migration):
                 ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
                 ('first_name', models.CharField(default='', max_length=100)),
                 ('last_name', models.CharField(default='', max_length=100)),
-                ('dob', models.DateField(default='', max_length=100)),
+                ('dob', models.DateField(max_length=100)),
                 ('phone', models.CharField(default='', max_length=16)),
                 ('email', models.EmailField(default='', max_length=100)),
                 ('gender', models.CharField(choices=[('M', 'Male'), ('F', 'Female'), ('N', 'Male')], default=None, max_length=1)),

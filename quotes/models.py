@@ -40,19 +40,19 @@ class Quote(models.Model):
 # Driver(s) are elements of a Quote, i.e. 
 # A quote can contain 1 to N drivers
 class Driver(models.Model):
-	GENDER_TYPE = [
-		('M', 'Male'),
-		('F', 'Female'),
-		('N', 'Male'),
-	]
+	# GENDER_TYPE = [
+	# 	('M', 'Male'),
+	# 	('F', 'Female'),
+	# 	('N', 'Male'),
+	# ]
 
 	quote = models.ForeignKey(Quote, related_name='drivers', on_delete=models.CASCADE)
 	first_name = models.CharField(max_length=100, blank=False, default='')
 	last_name = models.CharField(max_length=100, blank=False, default='')
-	dob = models.DateField(max_length=100, blank=False, default='')
+	dob = models.DateField(blank=True, null=True)
 	phone = models.CharField(max_length=16, blank=False, default='')
 	email = models.EmailField(max_length=100, blank=False, default='')
-	gender = models.CharField(choices=GENDER_TYPE, default=None, max_length=1)
+	# gender = models.CharField(choices=GENDER_TYPE, default=None, max_length=1)
 
 
 # Vehicles(s) are elements of a Quote, i.e. 

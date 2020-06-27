@@ -15,6 +15,8 @@ from quotes.serializers import QuoteSerializer
 from quotes.serializers import DriverSerializer, VehicleSerializer
 from quotes.serializers import UserSerializer, GroupSerializer
 
+import pdb
+
 class UserViewSet(viewsets.ModelViewSet):
     """
     API endpoint that allows users to be viewed or edited.
@@ -79,6 +81,14 @@ class QuoteViewSet(NestedViewSetMixin, viewsets.ModelViewSet):
 class QuoteShellViewSet(NestedViewSetMixin, viewsets.ModelViewSet):
     queryset = QuoteShell.objects.all()
     serializer_class = QuoteShellSerializer
+
+    # def create(self, request, *args, **kwargs):
+    #     data = request.data
+    #     quotes = data.get('quotes')
+    #     pdb.set_trace()
+
+    #     # do your thing here
+    #     return super().create(request)
 
     def perform_create(self, serializer):
         serializer.save()

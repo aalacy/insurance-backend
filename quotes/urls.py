@@ -25,7 +25,7 @@ from quotes.views import (
 # router = NestedDefaultRouter()
 
 router = ExtendedSimpleRouter()
-quote_router = router.register(r'', QuoteShellViewSet, basename='shell')
+quote_router = router.register(r'api/quoteshell', QuoteShellViewSet, basename='shell')
 quote_router.register(
 				r'quotes',
 				QuoteViewSet,
@@ -54,6 +54,7 @@ quote_router.register(
 				basename='quotes-vehicles',
 				parents_query_lookups=['quote__quote_shell', 'quote']
 			)
+			
 # The API URLs are now determined automatically by the router.
 # Additionally, we include the login URLs for the browsable API.
 urlpatterns = [
