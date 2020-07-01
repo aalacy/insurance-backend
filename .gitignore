@@ -102,3 +102,5 @@ Control.ca-bundle
 Control.system-ca-bundle 
 GitHub.sublime-settings 
 
+local_settings.py
+

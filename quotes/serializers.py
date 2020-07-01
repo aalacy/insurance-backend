@@ -4,6 +4,7 @@ from quotes.models import Snippet, LANGUAGE_CHOICES, STYLE_CHOICES
 from quotes.models import QuoteShell, Quote, Driver, Vehicle
 
 import time
+from datetime import datetime
 import pdb
 
 class UserSerializer(serializers.HyperlinkedModelSerializer):
@@ -98,24 +99,35 @@ class QuoteShellSerializer(serializers.ModelSerializer):
 		instance.first_name = driver.get('first_name', instance.first_name)
 		instance.last_name = driver.get('last_name', instance.last_name)
 		instance.dob = driver.get('dob', instance.dob)
-		instance.dob = time.strptime(instance.dob, "%m/%d/%Y") 
+		instance.dob = datetime.strptime(instance.dob, "%Y-%m-%d") 
 		instance.phone = driver.get('phone', instance.phone)
 		instance.email = driver.get('email', instance.email)
 
 		instance.save()
 
-	def update_vehicle(self, vehicle):
-		instance = Vehicle.objects.get(id=vehicle['id'])
+	def update_vehicle(self, vehicle, quote):
+		if vehicle.get('id'):
+			"""
+				Update the vehicle
+			"""
+			instance = Vehicle.objects.get(id=vehicle['id'])
 
-		instance.year = vehicle.get('year', instance.year)
-		instance.make = vehicle.get('make', instance.make)
-		instance.model = vehicle.get('model', instance.model)
-		instance.use_type = vehicle.get('use_type', instance.use_type)
-		instance.work_miles = vehicle.get('work_miles', instance.work_miles)
-		instance.year_miles = vehicle.get('year_miles', instance.year_miles)
-		instance.coverage_type = vehicle.get('coverage_type', instance.coverage_type)
+			instance.year = vehicle.get('year', instance.year)
+			instance.make = vehicle.get('make', instance.make)
+			instance.model = vehicle.get('model', instance.model)
+			instance.use_type = vehicle.get('use_type', instance.use_type)
+			instance.work_miles = vehicle.get('work_miles', instance.work_miles)
+			instance.year_miles = vehicle.get('year_miles', instance.year_miles)
+			instance.coverage_type = vehicle.get('coverage_type', instance.coverage_type)
 
-		instance.save()
+			instance.save()
+		else:
+			"""
+				Create the vehicle
+			"""
+			quote_obj = Quote.objects.get(id=quote['id'])
+
+			Vehicle.objects.create(quote=quote_obj, **vehicle)
 
 	def update(self, instance, validated_data):
 		"""
@@ -149,7 +161,6 @@ class QuoteShellSerializer(serializers.ModelSerializer):
 		"""
 		quotes = self._context['request'].data.pop('quotes')
 		for quote in quotes:
-			quote_obj = Quote.objects.get(id=quote['id'])
 
 			# get the drivers
 			drivers = quote.pop('drivers', [])
@@ -159,7 +170,7 @@ class QuoteShellSerializer(serializers.ModelSerializer):
 			# get the vehicles
 			vehicles = quote.pop('vehicles', [])
 			for vehicle in vehicles:
-				self.update_vehicle(vehicle)
+				self.update_vehicle(vehicle, quote)
 
 		return instance
 

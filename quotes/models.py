@@ -1,5 +1,5 @@
 from django.db import models
-from datetime import datetime
+from datetime import datetime, date
 
 # Create your models here.
 from pygments.lexers import get_all_lexers
@@ -49,7 +49,7 @@ class Driver(models.Model):
 	quote = models.ForeignKey(Quote, related_name='drivers', on_delete=models.CASCADE)
 	first_name = models.CharField(max_length=100, blank=False, default='')
 	last_name = models.CharField(max_length=100, blank=False, default='')
-	dob = models.DateField(blank=True, null=True)
+	dob = models.DateField(blank=True, null=True, default=date.today)
 	phone = models.CharField(max_length=16, blank=False, default='')
 	email = models.EmailField(max_length=100, blank=False, default='')
 	# gender = models.CharField(choices=GENDER_TYPE, default=None, max_length=1)
@@ -59,10 +59,10 @@ class Driver(models.Model):
 # A quote can contain 1 to N vehicles
 class Vehicle(models.Model):
 	USE_TYPE_CHOICES = [
-	    ('CO', 'Commute'),
-	    ('PL', 'Pleasure'),
-	    ('BU', 'Business'),
-	    ('UL', 'Uber/Lyft'),
+	    ('Commute', 'Commute'),
+	    ('Pleasure', 'Pleasure'),
+	    ('Business', 'Business'),
+	    ('Uber/Lyft', 'Uber/Lyft'),
 	]
 	WORK_MILES_CHOICES = [
 		('05', '0-5'),
@@ -71,6 +71,12 @@ class Vehicle(models.Model):
 		('1520', '15-20'),
 		('2030', '20-30'),
 		('30g', '30+'),
+	]
+	YEAR_MILES_CHOICES = [
+		('5000', '5,000'),
+		('12000', '12,000'),
+		('15000', '15,000'),
+		('25000', '25,000+'),
 	]
 	COVERAGE_TYPE = [
 		('FC', 'Full Coverage'),
@@ -88,11 +94,11 @@ class Vehicle(models.Model):
 		YEAR_CHOICES.append((x, x))
 		
 	quote = models.ForeignKey(Quote, related_name='vehicles', on_delete=models.CASCADE)
-	year = models.CharField(choices=YEAR_CHOICES, blank=False, max_length=4,  default=None)
-	make = models.CharField(choices=MODEL_CHOICES, max_length=100, default=None)
-	model = models.CharField(max_length=100, blank=False, default='')
-	use_type = models.CharField(choices=USE_TYPE_CHOICES, default=None, max_length=2)
-	work_miles = models.CharField(choices=WORK_MILES_CHOICES, default=None, max_length=10)
-	year_miles = models.IntegerField(blank=True, default='')
-	coverage_type = models.CharField(choices=COVERAGE_TYPE, default=None, max_length=2)
+	year = models.CharField(choices=YEAR_CHOICES, null=True, max_length=4, default='')
+	make = models.CharField(choices=MODEL_CHOICES, max_length=100, default='', null=True)
+	model = models.CharField(max_length=100, default='', null=True) 
+	use_type = models.CharField(choices=USE_TYPE_CHOICES, default='', max_length=20, null=True)
+	work_miles = models.CharField(choices=WORK_MILES_CHOICES, default='', max_length=10, null=True)
+	year_miles = models.CharField(choices=YEAR_MILES_CHOICES, default='', max_length=20, null=True)
+	coverage_type = models.CharField(choices=COVERAGE_TYPE, default='', max_length=2, null=True)
 

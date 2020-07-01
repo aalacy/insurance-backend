@@ -10,6 +10,7 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/2.2/ref/settings/
 """
 
+import django_heroku
 import os
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
@@ -32,7 +33,8 @@ ALLOWED_HOSTS = []
 
 REST_FRAMEWORK = {
     'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.PageNumberPagination',
-    'PAGE_SIZE': 10
+    'PAGE_SIZE': 10,
+    'EXCEPTION_HANDLER': 'quotes.utils.custom_exception_handler'
 }
 
 INSTALLED_APPS = [
@@ -140,3 +142,6 @@ STATIC_URL = '/static/'
 
 # cors
 CORS_ORIGIN_ALLOW_ALL = True
+
+# Activate Django-Heroku.
+django_heroku.settings(locals())

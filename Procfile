@@ -1,0 +1,1 @@
+web: gunicorn quote_ninja.wsgi --log-file -
