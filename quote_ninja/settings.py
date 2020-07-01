@@ -107,10 +107,14 @@ DATABASES = {
     # }
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': 'quotes',
-        'USER': 'quote_user',
-        'PASSWORD': '12345678',
-        'HOST': 'localhost',
+        'NAME': 'df20cpiv346f39',
+        'USER': 'iqkoovqelhhqlc',
+        'PASSWORD': '540fc482d70bdc4995aacbb040f601dade0dacd5b3d832d0c1ab04221553d2fe',
+        'HOST': 'ec2-54-234-44-238.compute-1.amazonaws.com',
+        # 'NAME': 'quotes',
+        # 'USER': 'quote_user',
+        # 'PASSWORD': '12345678',
+        # 'HOST': 'localhost',
         'PORT': ''             # set to empty string for default
     }
 }
