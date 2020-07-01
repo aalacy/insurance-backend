@@ -41,7 +41,6 @@ try:
 except Exception as e:
   pass
 
-
 # Application definition
 
 REST_FRAMEWORK = {
