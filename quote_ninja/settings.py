@@ -11,6 +11,7 @@ https://docs.djangoproject.com/en/2.2/ref/settings/
 """
 
 import os
+import dj_database_url
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -20,26 +21,18 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 # See https://docs.djangoproject.com/en/2.2/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'n2p_)ld@2i7=i%u@0#deixioq$!mu86&usmkk*wwue-=74*k&9'
+# SECRET_KEY = 'n2p_)ld@2i7=i%u@0#deixioq$!mu86&usmkk*wwue-=74*k&9'
+SECRET_KEY = config('SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = config('DEBUG', default=False, cast=bool)
 
 ALLOWED_HOSTS = ['*']
 
-# Parse database configuration from $DATABASE_URL
-import dj_database_url
-
-DATABASES = { 'default' : dj_database_url.config()}
+DATABASES = { 'default' : dj_database_url.config(default=config('DATABASE_URL'))}
 
 # Honor the 'X-Forwarded-Proto' header for request.is_secure()
 SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
-
-# try to load local_settings.py if it exists
-try:
-  from local_settings import *
-except Exception as e:
-  pass
 
 # Application definition
 
@@ -99,24 +92,24 @@ WSGI_APPLICATION = 'quote_ninja.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/2.2/ref/settings/#databases
 
-DATABASES = {
-    # 'default': {
-    #     'ENGINE': 'django.db.backends.sqlite3',
-    #     'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
-    # }
-    'default': {
-        'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': 'df20cpiv346f39',
-        'USER': 'iqkoovqelhhqlc',
-        'PASSWORD': '540fc482d70bdc4995aacbb040f601dade0dacd5b3d832d0c1ab04221553d2fe',
-        'HOST': 'ec2-54-234-44-238.compute-1.amazonaws.com',
-        # 'NAME': 'quotes',
-        # 'USER': 'quote_user',
-        # 'PASSWORD': '12345678',
-        # 'HOST': 'localhost',
-        'PORT': ''             # set to empty string for default
-    }
-}
+# DATABASES = {
+#     # 'default': {
+#     #     'ENGINE': 'django.db.backends.sqlite3',
+#     #     'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+#     # }
+#     'default': {
+#         'ENGINE': 'django.db.backends.postgresql_psycopg2',
+#         'NAME': 'df20cpiv346f39',
+#         'USER': 'iqkoovqelhhqlc',
+#         'PASSWORD': '540fc482d70bdc4995aacbb040f601dade0dacd5b3d832d0c1ab04221553d2fe',
+#         'HOST': 'ec2-54-234-44-238.compute-1.amazonaws.com',
+#         # 'NAME': 'quotes',
+#         # 'USER': 'quote_user',
+#         # 'PASSWORD': '12345678',
+#         # 'HOST': 'localhost',
+#         'PORT': ''             # set to empty string for default
+#     }
+# }
 
 
 # Password validation
