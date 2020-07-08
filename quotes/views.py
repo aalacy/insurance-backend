@@ -7,12 +7,11 @@ from rest_framework.decorators import action
 from rest_framework.response import Response
 from rest_framework_extensions.mixins import NestedViewSetMixin
 
-from quotes.models import Snippet, QuoteShell, Quote, Driver, Vehicle
+from quotes.models import QuoteShell, Quote, Driver, Vehicle, Address
 # from quotes.permissions import IsOwnerOrReadOnly
-from quotes.serializers import SnippetSerializer
 from quotes.serializers import QuoteShellSerializer
 from quotes.serializers import QuoteSerializer
-from quotes.serializers import DriverSerializer, VehicleSerializer
+from quotes.serializers import DriverSerializer, VehicleSerializer, AddressSerializer
 from quotes.serializers import UserSerializer, GroupSerializer
 
 import pdb
@@ -32,22 +31,9 @@ class GroupViewSet(viewsets.ModelViewSet):
     queryset = Group.objects.all()
     serializer_class = GroupSerializer
 
-class SnippetViewSet(viewsets.ModelViewSet):
-    """
-    This viewset automatically provides `list`, `create`, `retrieve`,
-    `update` and `destroy` actions.
-    Additionally we also provide an extra `highlight` action.
-    """
-    queryset = Snippet.objects.all()
-    serializer_class = SnippetSerializer
-    # permission_classes = (
-    #     permissions.IsAuthenticatedOrReadOnly,
-    #     IsOwnerOrReadOnly, )
-
-    @action(detail=True, renderer_classes=[renderers.StaticHTMLRenderer])
-    def highlight(self, request, *args, **kwargs):
-        snippet = self.get_object()
-        return Response(snippet.highlighted)
+class AddressViewSet(NestedViewSetMixin, viewsets.ModelViewSet):
+    queryset = Address.objects.all()
+    serializer_class = AddressSerializer
 
     def perform_create(self, serializer):
         serializer.save()
@@ -81,14 +67,6 @@ class QuoteViewSet(NestedViewSetMixin, viewsets.ModelViewSet):
 class QuoteShellViewSet(NestedViewSetMixin, viewsets.ModelViewSet):
     queryset = QuoteShell.objects.all()
     serializer_class = QuoteShellSerializer
-
-    # def create(self, request, *args, **kwargs):
-    #     data = request.data
-    #     quotes = data.get('quotes')
-    #     pdb.set_trace()
-
-    #     # do your thing here
-    #     return super().create(request)
 
     def perform_create(self, serializer):
         serializer.save()

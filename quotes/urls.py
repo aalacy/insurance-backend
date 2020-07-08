@@ -6,7 +6,8 @@ from quotes.views import (
 	QuoteShellViewSet,
 	QuoteViewSet,
 	DriverViewSet,
-	VehicleViewSet
+	VehicleViewSet,
+	AddressViewSet
 )
 
 # Create a router and register our viewsets with it.
@@ -32,6 +33,16 @@ quote_router.register(
 				basename='quotes',
 				parents_query_lookups=['quote_shell']
 			)
+
+"""
+	Drivers
+
+	Create URL
+		api/quoteshell/<quote_shell_id>/quotes/<quote_id>/drivers/
+
+	Update URL
+		api/quoteshell/<quote_shell_id>/quotes/<quote_id>/drivers/<driver_id>/
+"""
 quote_router.register(
 				r'quotes',
 				QuoteViewSet,
@@ -43,6 +54,16 @@ quote_router.register(
 				basename='quotes-drivers',
 				parents_query_lookups=['quote__quote_shell', 'quote']
 			)
+
+"""
+	Vehicles
+
+	Create URL
+		api/quoteshell/<quote_shell_id>/quotes/<quote_id>/vehicles/
+
+	Update URL
+		api/quoteshell/<quote_shell_id>/quotes/<quote_id>/vehicles/<vehicle_id>/
+"""
 quote_router.register(
 				r'quotes',
 				QuoteViewSet,
@@ -52,6 +73,27 @@ quote_router.register(
 				r'vehicles',
 				VehicleViewSet,
 				basename='quotes-vehicles',
+				parents_query_lookups=['quote__quote_shell', 'quote']
+			)
+
+"""
+	Address
+
+	Create URL
+		api/quoteshell/<quote_shell_id>/quotes/<quote_id>/vehicles/
+
+	Update URL
+		api/quoteshell/<quote_shell_id>/quotes/<quote_id>/vehicles/<vehicle_id>/
+"""
+quote_router.register(
+				r'quotes',
+				QuoteViewSet,
+				basename='quotes',
+				parents_query_lookups=['quote_shell']
+			).register(
+				r'addresses',
+				AddressViewSet,
+				basename='quotes-addresses',
 				parents_query_lookups=['quote__quote_shell', 'quote']
 			)
 			
