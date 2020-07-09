@@ -13,7 +13,6 @@ YES_NO_OPTION = [
 # One Quote Shell with a given unique ID can have many quotes with different vehicles or drivers 
 class QuoteShell(models.Model):
 	created = models.DateTimeField(auto_now_add=True)
-	ip = models.CharField(max_length=100, blank=True)
 	
 	class Meta:
 		ordering = ['created']
@@ -33,6 +32,7 @@ class Quote(models.Model):
 	]
 
 	quote_shell = models.ForeignKey(QuoteShell, related_name='quotes', on_delete=models.CASCADE)
+	ip = models.CharField(max_length=100, blank=True)
 	created = models.DateTimeField(auto_now_add=True)
 	homeowner = models.CharField(choices=YES_NO_OPTION, max_length=5, null=True, blank=True)
 	prior_insurance  = models.CharField(choices=YES_NO_OPTION, max_length=5, null=True, blank=True)
