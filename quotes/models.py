@@ -104,7 +104,7 @@ class Driver(models.Model):
 	phone = models.CharField(max_length=16, blank=False)
 	email = models.EmailField(max_length=100, blank=False)
 	gender = models.CharField(choices=GENDER_TYPE, max_length=12, null=True, blank=True)
-	martial = models.CharField(choices=MARTIAL_TYPE, max_length=20, null=True, blank=True)
+	marital = models.CharField(choices=MARTIAL_TYPE, max_length=20, null=True, blank=True)
 	age_license = models.CharField(max_length=100, blank=True)
 	occupation = models.CharField(choices=OCCUPATION_TYPE, max_length=100, null=True, blank=True)
 	license_status = models.CharField(choices=LICENSE_STATUS_TYPE, max_length=100, null=True, blank=True)
